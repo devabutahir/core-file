@@ -47,8 +47,7 @@ $(document).ready(() => {
   });
 
     //--== Sticky Header ==--//
-    $(window).on("scroll", function () {
-      
+    $(window).on("scroll", function () {      
       var fixed_top = $(".header-section, .cmn-fixed");
       if ($(window).scrollTop() > 50) {
         fixed_top.addClass("header-fixed");
@@ -121,10 +120,7 @@ $(document).ready(() => {
       
       AOS.init({
         once: true,
-      });
-
-      // gsap.registerPlugin(ScrollTrigger);
-      
+      });      
     });
     //--== Aos Animation ==--//
 
