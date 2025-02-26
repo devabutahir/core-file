@@ -1,16 +1,15 @@
 // default font family
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
+//Custom Font Family Adding
 @font-face {
     font-family: 'Gilroy'; 
     src: url('../../assets/webfonts/Gilroy-Medium.ttf') format('truetype');
-    // src: url('../webfonts/Gilroy-Medium.ttf') format('truetype');
 	font-weight: 500;
 }
 @font-face {
     font-family: 'Gilroy'; 
     src: url('../../assets/webfonts/Gilroy-Regular.ttf') format('truetype');
-    // src: url('../webfonts/Gilroy-Medium.ttf') format('truetype');
 	font-weight: 400;
 }
 
@@ -27,45 +26,4 @@
 	/* Color styles */
 	--n0: #fff;
 	--n00: #000;
-	--p1: #1FB254;
-	--p2: #5034FA;
-	--s1: #FFAB00;
-	--s2: #B3FC6A;
-	--s3: #B71D18;
-	--s4: #B021D4;
-	--s5: #FB5C27;
-	--p100: rgb(119, 75, 251);
-	--p200: rgb(251, 70, 70);
-	--p300: rgb(20, 191, 255);
-	--p400: rgb(255, 130, 92);
-	--p500: rgb(255, 133, 47);
-	--p600: rgb(13, 136, 255);
-	--p700: rgb(73, 179, 99);
-	--p800: rgb(111, 75, 251);
-	--p900: rgb(249, 248, 113);
-	--n900: #101010;
-	--bg1: #FEF9F1;
-	--bg2: #F1FEFD;
-	--bg3: #F6F5F7;
-	--blackbg: #04001F;
-	--bg4: #F1F7FE;
-	--bg5: #FEF8F6;
-	--bg6: #F6F9F8;
-	--bg7: #F9FEF1;
-	--bg8: #F9F7F5;
-	--box-bg: #F8F8F8;
-	--ratting: #FEBD15;
-	--section-bg: #F6F6F6;
-	--danger: #F00;
-	--pp-clr: #3E3B53;
-	--pra2-clr: #C0BFC7;
-	--cmn-border: rgba(0, 0, 0, 0.20);
-}
-
-.body-font{
-	font-family: var(--body-font);
-}
-
-.cmn-borders{
-	border: 1px solid rgba(0, 0, 0, 0.08);	
 }
