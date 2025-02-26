@@ -1082,10 +1082,15 @@ iframe {
   opacity: 1;
 }
 
-.header-fixed {
-  position: fixed;
-  top: 0px;
-  z-index: 999;
+.header-wrapper .logo {
+  max-width: 120px;
+}
+.header-wrapper .logo img {
   width: 100%;
-  background: #04001F;
+}
+.header-wrapper .custop-bars .bars-button {
+  max-width: 40px;
+}
+.header-wrapper .custop-bars .bars-button img {
+  width: 100%;
 }/*# sourceMappingURL=main.css.map */

@@ -1,9 +1,29 @@
 
 // sticky header 
-.header-fixed{
-    position: fixed;
-    top: 0px;
-    z-index: 999;
-    width: 100%;
-    background: #04001F;
+// .header-fixed{
+//     position: fixed;
+//     top: 0px;
+//     z-index: 999;
+//     width: 100%;
+//     background: #04001F;
+// }
+
+
+//Header DeskTop
+.header-wrapper{
+    .logo{
+        max-width: 120px;
+        img{
+            width: 100%;
+        }
+    }
+    .custop-bars{
+        .bars-button{
+            max-width: 40px;
+            img{
+                width: 100%;
+            }
+        }
+    }
 }
+//Header DeskTop
