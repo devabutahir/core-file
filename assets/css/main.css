@@ -1264,23 +1264,9 @@ iframe {
   font-weight: 500;
   color: #000;
 }
-.header-mobile .mobile-menu .menu-item .sub-menu {
-  background: #fff;
-  border-radius: 10px;
-  border-left: 3px solid #4ad54a;
-  padding: 18px 18px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  top: 100%;
-  min-width: 240px;
-  transition: all 0.4s;
-  display: none;
-}
 .header-mobile .mobile-menu .menu-item .sub-menu .menu-item a {
   padding: 0 0;
 }
 .header-mobile .mobile-menu .menu-item .sub-menu .menu-item:not(:last-child) {
   padding-bottom: 8px;
-}
-.header-mobile .mobile-menu .menu-item .sub-menu .menu-item .sub-menu {
-  display: none;
 }/*# sourceMappingURL=main.css.map */

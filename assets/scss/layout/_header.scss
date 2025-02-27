@@ -220,15 +220,14 @@
         .menu-item{
             // position: relative;
             .sub-menu{
-                background: #fff;
-                border-radius: 10px;
-                border-left: 3px solid #4ad54a;
-                padding: 18px 18px;
-                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-                top: 100%;
-                min-width: 240px;
-                transition: all 0.4s;
-                display: none;
+                // background: #fff;
+                // border-radius: 10px;
+                // border-left: 3px solid #4ad54a;
+                // padding: 18px 18px;
+                // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                // top: 100%;
+                // min-width: 240px;
+                // transition: all 0.4s;
                 .menu-item{
                     a{
                         padding: 0 0;
@@ -237,13 +236,8 @@
                         padding-bottom: 8px;
                     }
                     .sub-menu{
-                        display: none;
-                    }
-                }
-            }
-            &.active{
-                .sub-menu{
 
+                    }
                 }
             }
         }
