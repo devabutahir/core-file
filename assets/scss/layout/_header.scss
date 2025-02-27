@@ -10,18 +10,163 @@
 
 
 //Header DeskTop
+.header-section{
+    background: #ebebeb;
+}
 .header-wrapper{
+    position: relative;
     .logo{
-        max-width: 120px;
+        max-width: 50px;
         img{
             width: 100%;
         }
     }
+    .main-menu{
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        li > a{
+            padding: 26px 0;
+        }
+        .custom-mega-menu{
+            .sub-mega{
+                min-width: initial !important;
+                padding: 14px 14px !important;
+                display: flex;
+                justify-content: center;
+                gap: 14px;
+                left: 50%;
+                transform: translateX(-50%) translateY(10px) !important;
+                margin: 0 auto;
+                li{
+                    .screen-thumb{
+                        padding: 0 0 !important;
+                        width: 250px;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                    .screen-btn{
+                        padding: 10px 17px;
+                        border-radius: 4px;
+                        display: block;
+                        background: #4ad54a;
+                        font-size: 14px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        color: #fff;
+                        text-align: center;
+                    }
+                    &:hover{
+                        .screen-btn{
+                            padding-left: initial !important;
+                            color: #fff;
+                        }
+                        a{
+                            padding-left: initial !important;
+                        }
+                    }
+                }
+            }
+        }
+        .menu-item,
+        li{
+            a{
+                font-size: 16px;
+                text-transform: uppercase;
+                font-weight: 500;
+                color: #000;
+            }            
+            .sub-menu{
+                background: #fff;
+                border-radius: 10px;
+                border-left: 3px solid #4ad54a;
+                padding: 14px 18px;
+                position: absolute;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                top: 100%;
+                transform: translateY(10px);
+                min-width: 240px;
+                transition: all 0.4s;
+                visibility: hidden;
+                opacity: 0;
+                pointer-events: none;
+                .menu-item{
+                    .sub-menu{
+                        left: 100%;
+                        transition: all 0.4s;
+                        visibility: hidden;
+                        opacity: 0;
+                        transform: translateY(10px);
+                        pointer-events: none;
+                    }
+                    &:hover{
+                        .sub-menu{
+                            transform: translateY(-20px);
+                            visibility: visible;
+                            opacity: 1;
+                            pointer-events: unset;
+                        }
+                    }
+                }
+                li{
+                    a{
+                        font-size: 14px;
+                        padding: 9px 0px;
+                        display: block;
+                        transition: all 0.4s;
+                        &:hover{
+                            padding-left: 5px;
+                            color: #4ad54a;
+                        }
+                    }
+                }
+            }
+            &:hover{
+                .sub-menu{
+                    transform: translateY(-8px);
+                    visibility: visible;
+                    opacity: 1;
+                    pointer-events: unset;
+                }
+            }
+        }
+    }
     .custop-bars{
         .bars-button{
-            max-width: 40px;
+            max-width: 35px;
             img{
                 width: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+    &:hover{
+        .main-menu{            
+            .custom-mega-menu{
+                .sub-mega{
+                    transform: translateX(-50%) translateY(-8px) !important;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 1399px) {
+        .main-menu{
+            .custom-mega-menu{
+                .sub-mega{
+                    li{
+                        .screen-thumb{
+                            width: 200px;
+                            img{
+                                width: 100%;
+                            }
+                        }
+                        .screen-btn{
+                            padding: 9px 12px;
+                            font-size: 13px;
+                        }
+                    }
+                }
             }
         }
     }
