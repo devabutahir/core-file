@@ -10,6 +10,16 @@ $(document).ready(() => {
     }, 1500);
     //--== Preloader ==--//
 
+
+    $('.menu-item > a').on('click', function(e) {
+        e.preventDefault(); // Prevent default link behavior
+        var $submenu = $(this).siblings('ul.sub-menu');
+        
+        if ($submenu.length) {
+            $submenu.stop(true, true).slideToggle(300); // Ensure smooth toggle effect
+        }
+    });
+
     // lenis Scroll Init
     // gsap.registerPlugin(ScrollSmoother); 
     // const lenis = new Lenis();
