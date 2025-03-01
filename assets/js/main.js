@@ -10,136 +10,60 @@ $(document).ready(() => {
     }, 1500);
     //--== Preloader ==--//
 
-
-    // $('.menu-item > a').on('click', function(e) {
-    //     e.preventDefault(); // Prevent default link behavior
-    //     var $submenu = $(this).siblings('ul.sub-menu');
-        
-    //     if ($submenu.length) {
-    //         $submenu.stop(true, true).slideToggle(300); // Ensure smooth toggle effect
-    //     }
-    // });
-
-
-
-  //   const mobileMenu = () => {
-  //     if (!window.matchMedia("(max-width: 991px)").matches) return;
+    //Header Menu
+    const mobileMenu = () => {
+      document.querySelectorAll(".menu-items > a").forEach(link => {
+          const subMenu = link.parentElement.querySelector(".sub-menus");
+          if (!subMenu) return;
+          // Set initial styles
+          subMenu.style.overflow = "hidden";
+          subMenu.style.maxHeight = "0";
+          subMenu.style.opacity = "0";
+          subMenu.style.transition = "max-height 0.4s ease-in-out, opacity 0.3s ease-in-out";
+          link.addEventListener("click", (e) => {
+              e.preventDefault();
+              const isActive = subMenu.classList.toggle("active");
+              if (isActive) {
+                  subMenu.style.maxHeight = `${subMenu.scrollHeight}px`;
+                  subMenu.style.opacity = "1";
+                  // Expand parent menus to fit the newly expanded submenu
+                  let parent = subMenu.parentElement.closest(".sub-menus");
+                  while (parent) {
+                      parent.style.maxHeight = `${parent.scrollHeight + subMenu.scrollHeight}px`;
+                      parent = parent.parentElement.closest(".sub-menus");
+                  }
+              } else {
+                  subMenu.style.maxHeight = "0";
+                  subMenu.style.opacity = "0";
+                  // Collapse parent menus if all child menus are closed
+                  let parent = subMenu.parentElement.closest(".sub-menus");
+                  while (parent) {
+                      parent.style.maxHeight = `${parent.scrollHeight - subMenu.scrollHeight}px`;
+                      parent = parent.parentElement.closest(".sub-menus");
+                  }
+              }
+          });
+      });
+    };
+    mobileMenu();
+    //header active 
+    document.addEventListener("click", (event) => {
+      const barsButton = event.target.closest(".bars-button");
+      const headerMobile = document.querySelector(".header-mobile");
+      const overlay = document.querySelector(".custom-header-overlay");
   
-  //     // Process all menu items with their sub-menus
-  //     document.querySelectorAll(".menu-item a").forEach(link => {
-  //         const subMenu = link.parentElement.querySelector(".sub-menu");
-  //         if (!subMenu) return;
-  
-  //         // Set initial state for subMenu
-  //         Object.assign(subMenu.style, {
-  //             maxHeight: '0',
-  //             opacity: '0',
-  //             overflow: 'hidden',
-  //             transition: 'max-height 0.3s ease, opacity 0.3s ease'
-  //         });
-  
-  //         // Toggle subMenu on click
-  //         link.addEventListener("click", () => {
-  //             const isActive = !subMenu.classList.contains("active");
-  //             // Toggle active class
-  //             subMenu.classList.toggle("active");
-  
-  //             // Set appropriate styles based on state
-  //             subMenu.style.maxHeight = isActive ? `${subMenu.scrollHeight}px` : '0';
-  //             subMenu.style.opacity = isActive ? '1' : '0';
-  
-  //             // Clean up after transition
-  //             subMenu.addEventListener('transitionend', () => {
-  //                 if (isActive) subMenu.style.maxHeight = 'none';
-  //             }, { once: true });
-  //         });
-  
-  //         // Process nested sub-menus
-  //         subMenu.querySelectorAll(".menu-item a").forEach(nestedLink => {
-  //             const nestedSubMenu = nestedLink.parentElement.querySelector(".sub-menu");
-  //             if (!nestedSubMenu) return;
-  
-  //             // Set initial state for nestedSubMenu
-  //             Object.assign(nestedSubMenu.style, {
-  //                 maxHeight: '0',
-  //                 opacity: '0',
-  //                 overflow: 'hidden',
-  //                 transition: 'max-height 0.3s ease, opacity 0.3s ease'
-  //             });
-  
-  //             // Toggle nested subMenu on click
-  //             nestedLink.addEventListener("click", () => {
-  //                 const isActive = !nestedSubMenu.classList.contains("active");
-  //                 nestedSubMenu.classList.toggle("active");
-  //                 nestedSubMenu.style.maxHeight = isActive ? `${nestedSubMenu.scrollHeight}px` : '0';
-  //                 nestedSubMenu.style.opacity = isActive ? '1' : '0';
-  
-  //                 nestedSubMenu.addEventListener('transitionend', () => {
-  //                     if (isActive) nestedSubMenu.style.maxHeight = 'none';
-  //                 }, { once: true });
-  //             });
-  //         });
-  //     });
-  // };
-
-  const mobileMenu = () => {
-    // if (!window.matchMedia("(max-width: 991px)").matches) return;
-
-    document.querySelectorAll(".menu-item > a").forEach(link => {
-        const subMenu = link.parentElement.querySelector(".sub-menu");
-        if (!subMenu) return;
-
-        // Set initial state
-        subMenu.style.overflow = "hidden";
-        subMenu.style.maxHeight = "0";
-        subMenu.style.opacity = "0";
-        subMenu.style.transition = "max-height 0.4s ease-in-out, opacity 0.3s ease-in-out";
-
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            const isActive = subMenu.classList.toggle("active");
-
-            if (isActive) {
-                subMenu.style.maxHeight = `${subMenu.scrollHeight}px`;
-                subMenu.style.opacity = "1";
-            } else {
-                subMenu.style.maxHeight = "0";
-                subMenu.style.opacity = "0";
-            }
-        });
-
-        // Handle nested submenus
-        subMenu.querySelectorAll(".menu-item > a").forEach(nestedLink => {
-            const nestedSubMenu = nestedLink.parentElement.querySelector(".sub-menu");
-            if (!nestedSubMenu) return;
-
-            // Set initial state for nested sub-menus
-            nestedSubMenu.style.overflow = "hidden";
-            nestedSubMenu.style.maxHeight = "0";
-            nestedSubMenu.style.opacity = "0";
-            nestedSubMenu.style.transition = "max-height 0.4s ease-in-out, opacity 0.3s ease-in-out";
-
-            nestedLink.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                const isNestedActive = nestedSubMenu.classList.toggle("active");
-
-                if (isNestedActive) {
-                    nestedSubMenu.style.maxHeight = `${nestedSubMenu.scrollHeight}px`;
-                    nestedSubMenu.style.opacity = "1";
-                } else {
-                    nestedSubMenu.style.maxHeight = "0";
-                    nestedSubMenu.style.opacity = "0";
-                }
-            });
-        });
+      if (barsButton) {
+          // Toggle active class when clicking bars button
+          headerMobile.classList.toggle("active");
+          overlay.classList.toggle("active");
+      } else if (!headerMobile.contains(event.target) && !event.target.closest(".header-mobile")) {
+          // Remove active class when clicking outside
+          headerMobile.classList.remove("active");
+          overlay.classList.remove("active");
+      }
     });
-};
   
-  // Initialize menu and add resize listener
-  mobileMenu();
-  // window.addEventListener("resize", mobileMenu);
+
     
 
     // lenis Scroll Init
@@ -277,9 +201,9 @@ $(document).ready(() => {
       $('body').toggleClass('overflow-hidden');
       $(this).toggleClass('open');
     });    
-    $('.menu-item, .active-button').on('click', function () {
-      $(this).siblings("ul").slideToggle(300); 
-    });
+    // $('.menu-item, .active-button').on('click', function () {
+    //   $(this).siblings("ul").slideToggle(300); 
+    // });
     //--== Custom Navbar Header ==--//
   
     //--== Swipper SLider Init Area ==--//
