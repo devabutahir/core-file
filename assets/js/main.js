@@ -331,46 +331,310 @@ $(document).ready(() => {
       );
     });
 
-    // Visible Slowly From Bottom Animation
-    const visibleSlowlyBottom = document.querySelectorAll(".visible-slowly-bottom");
-    function visibleSlowly() {
-      visibleSlowlyBottom.forEach(splitArea => {
-        if (splitArea.anim) {
-          // Kill any existing animation and revert the splitText
-          splitArea.anim.progress(1).kill();
-          splitArea.split.revert();
+    //  fade up animation
+    let fadeArray_items = document.querySelectorAll('.fade_anim');
+    if (fadeArray_items.length > 0) {
+      const fadeArray = gsap.utils.toArray('.fade_anim');
+      fadeArray.forEach((item, i) => {
+        var fade_direction = 'bottom';
+        var onscroll_value = 1;
+        var duration_value = 0.75;
+        var fade_offset = 40;
+        var delay_value = 0.15;
+        var ease_value = 'power2.out';
+
+        if (item.getAttribute('data-duration')) {
+          duration_value = item.getAttribute('data-duration');
+        }
+        if (item.getAttribute('data-fade-from')) {
+          fade_direction = item.getAttribute('data-fade-from');
+        }
+        if (item.getAttribute('data-delay')) {
+          delay_value = item.getAttribute('data-delay');
         }
 
-        // Split the text into chars, words, and lines
-        splitArea.split = new SplitText(splitArea, {
-          type: "lines,words,chars",
-          linesClass: "split-line"
-        });
+        let animation_settings = {
+          opacity: 0,
+          ease: ease_value,
+          duration: duration_value,
+          delay: delay_value,
+        };
 
-        // Create a new animation with ScrollTrigger
-        splitArea.anim = gsap.from(splitArea.split.chars, {
-          scrollTrigger: {
-            trigger: splitArea,
-            toggleActions: "restart pause resume reverse", // Adjust behavior as needed
-            start: 'top 90%', // When the top of the element reaches 90% of the viewport
-          },
-          duration: 0.8,
-          ease: "circ.out", // Ease type for the animation
-          y: 70,
-          stagger: 0.02
-        });
+        if (fade_direction == 'top') {
+          animation_settings['y'] = -fade_offset;
+        }
+        if (fade_direction == 'left') {
+          animation_settings['x'] = -fade_offset;
+        }
+
+        if (fade_direction == 'bottom') {
+          animation_settings['y'] = fade_offset;
+        }
+
+        if (fade_direction == 'right') {
+          animation_settings['x'] = fade_offset;
+        }
+
+        if (onscroll_value == 1) {
+          animation_settings['scrollTrigger'] = {
+            trigger: item,
+            start: 'top 90%',
+          };
+        }
+        gsap.from(item, animation_settings);
       });
     }
-    ScrollTrigger.addEventListener("refresh", visibleSlowly);
-    window.addEventListener("load", () => {
-      ScrollTrigger.refresh(); 
-      visibleSlowly(); 
+
+    // title anim
+    gsap.utils.toArray(".title_anim").forEach((title, i) => {
+      gsap.fromTo(
+        title,
+        {
+          opacity: 0,    
+          clipPath: "inset(0 100% 0 0)", // Hidden from right
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          clipPath: "inset(0 0% 0 0)", // Reveal from right
+        //   duration: 1,
+          ease: "power3.in",
+          delay: i * 0.3, // Stagger effect
+          scrollTrigger: {
+            trigger: title,
+            start: "top 85%", // Start when title enters viewport
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
-    window.addEventListener("resize", () => {
-      ScrollTrigger.refresh(); 
-      visibleSlowly(); 
-    });
-    visibleSlowly();
+
+    // reveal animation
+    function revealAnim(selector) {
+        document.querySelectorAll(selector).forEach((item) => {
+            const direction = item.getAttribute("data-reveal-from") || "left"; // Default: bottom
+            const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default: 0s
+            const duration = parseFloat(item.getAttribute("data-duration")) || 1.2; // Default: 1.2s
+        
+            // Define animation properties based on direction
+            let fromVars = {
+                opacity: 0,
+                clipPath: "inset(0 0 0 0)", // Default, changes dynamically
+                ease: "power3.out",
+                duration: duration,
+                delay: delay,
+            };
+        
+            switch (direction) {
+                case "top":           
+                    fromVars.clipPath = "inset(100% 0% 0% 0%)";
+                    break;
+                case "right":           
+                    fromVars.clipPath = "inset(0% 0% 0% 100%)";
+                    break;
+                case "bottom":           
+                    fromVars.clipPath = "inset(0% 0% 100% 0%)";
+                    break;
+                case "left":           
+                    fromVars.clipPath = "inset(0% 100% 0% 0%)";
+                    break;
+            }
+        
+            gsap.fromTo(
+                item,
+                fromVars,
+                {
+                    opacity: 1,
+                    y: 0,
+                    x: 0,
+                    duration: duration,
+                    delay: delay,
+                    ease: "power3.inOut",
+                    clipPath: "inset(0% 0% 0% 0%)",
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none none",
+                    },
+                }
+            );
+        });
+    }
+
+    // text split animation
+    function splitTextAnimation(selector) {
+        document.querySelectorAll(selector).forEach((item) => {
+            const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default: 0s
+            const duration = parseFloat(item.getAttribute("data-duration")) || .5; // Default: 1s
+        
+            // Preserve spaces while wrapping each letter in a span
+            let text = item.innerText;
+            item.innerHTML = text.split("").map(letter => {
+                return letter === " " 
+                    ? "&nbsp;" // Keep space intact
+                    : `<span style="display: inline-block; opacity: 0;">${letter}</span>`;
+            }).join("");
+        
+            const letters = item.querySelectorAll("span");
+        
+            gsap.to(letters, {
+                opacity: 1,
+                y: 0,
+                rotationX: 0,
+                duration: duration,
+                delay: delay,
+                ease: "back.out(1.7)",
+                stagger: 0.05, // Stagger effect for each letter
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            });
+        
+            // Initial hidden state for animation
+            gsap.set(letters, { opacity: 0, y: 50, rotationX: 90 });
+        });
+    }
+    // scale and fade animation
+    function scaleFadeTextReveal(selector) {
+        document.querySelectorAll(selector).forEach((item) => {
+            const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default delay
+            const duration = parseFloat(item.getAttribute("data-duration")) || 1.4; // Default duration
+
+            // Preserve spaces while wrapping each letter in a span
+            let text = item.innerText;
+            item.innerHTML = text.split("").map(letter => {
+                return letter === " " 
+                    ? "&nbsp;" // Keeps spaces intact
+                    : `<span style="display: inline-block; opacity: 0; transform: scale(0.5);">${letter}</span>`;
+            }).join("");
+
+            const letters = item.querySelectorAll("span");
+
+            gsap.to(letters, {
+                opacity: 1,
+                scale: 1,
+                duration: duration,
+                delay: delay,
+                rotateX: 0,
+                ease: "back.out", // Gives a bouncy feel
+                stagger: 0.05, // Adds a smooth delay between each letter
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            });
+
+            // Set initial hidden state
+            gsap.set(letters, { rotateX: 180 });
+        });
+    }
+
+    // sliding blur text animation
+    function slidingBlurTextReveal(selector) {
+        document.querySelectorAll(selector).forEach((item) => {
+            const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default delay
+            const duration = parseFloat(item.getAttribute("data-duration")) || .8; // Default duration
+
+            // Preserve spaces while wrapping each letter in a span
+            let text = item.innerText;
+            item.innerHTML = text.split("").map(letter => {
+                return letter === " " 
+                    ? "&nbsp;" // Keeps spaces intact
+                    : `<span style="display: inline-block; opacity: 0; filter: blur(10px);">${letter}</span>`;
+            }).join("");
+
+            const letters = item.querySelectorAll("span");
+
+            gsap.to(letters, {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: duration,
+                delay: delay,
+                ease: "power3.out",
+                stagger: 0.05, // Adds a smooth delay between each letter
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            });
+
+            // Set initial hidden state
+            gsap.set(letters, { opacity: 0, filter: "blur(10px)" });
+        });
+    }
+    // explode text animation
+    function explodeTextReveal(selector) {
+        document.querySelectorAll(selector).forEach((item) => {
+            const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default delay
+            const duration = parseFloat(item.getAttribute("data-duration")) || 1; // Default duration
+
+            // Preserve spaces while wrapping each letter in a span
+            let text = item.innerText;
+            item.innerHTML = text.split("").map(letter => {
+                return letter === " " 
+                    ? "&nbsp;" // Keeps spaces intact
+                    : `<span style="display: inline-block; transform: scale(0); opacity: 0;">${letter}</span>`;
+            }).join("");
+
+            const letters = item.querySelectorAll("span");
+
+            gsap.to(letters, {
+                scale: 1, // Resets the scale to normal size
+                opacity: 1, // Fades in the letter
+                duration: duration,
+                delay: delay,
+                ease: "back.out(1.7)", // Exploding back effect
+                stagger: 0.05, // Adds a stagger between each letter for the explosion effect
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            });
+
+            // Set initial hidden state with scaling to 0
+            gsap.set(letters, { scale: 0, opacity: 0 });
+        });
+    }
+    function slidingBlurCardReveal(selector) {
+      document.querySelectorAll(selector).forEach((item) => {
+          const delay = parseFloat(item.getAttribute("data-delay")) || 0; // Default delay
+          const duration = parseFloat(item.getAttribute("data-duration")) || 1.2; // Default duration
+
+          // Set initial hidden state
+          gsap.set(item, { opacity: 0, filter: "blur(10px)", y: 50 });
+
+          gsap.to(item, {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: duration,
+              delay: delay,
+              ease: "power3.out",
+              scrollTrigger: {
+                  trigger: item,
+                  start: "top 85%",
+                  toggleActions: "play none none none",
+              },
+          });
+      });
+    }
+
+    // Initialize the animation on elements with the .card-reveal class
+    slidingBlurCardReveal(".card_reveal");
+
+    // Call function for elements with class "explode-anim"
+    slidingBlurTextReveal(".blur_anim");
+    scaleFadeTextReveal(".scale_anim");
+    revealAnim(".reveal_anim");
+    splitTextAnimation(".split_anim");
+    explodeTextReveal(".explode_anim");
 
     // img Vivacity
     let imgVivacity = document.querySelectorAll(".image-vivacity");
@@ -383,32 +647,7 @@ $(document).ready(() => {
     }
 
     // image right to left 
-    gsap.registerPlugin(ScrollTrigger);
-      let revealContainers = document.querySelectorAll(".reveal-one");
-      revealContainers.forEach((container) => {
-      let image = container.querySelector(".reveal-image-one");
-      let rts = gsap.timeline({
-          scrollTrigger: {
-          trigger: container,
-          toggleActions: "restart none none reset",
-          start: "top 90%",
-          end: "top 0%",
-          }
-      });
-      rts.set(container, {
-          autoAlpha: 1
-      });
-      rts.from(container, 1.5, {
-          xPercent: 100,
-          ease: Power2.out
-      });
-      rts.from(image, 1.5, {
-          xPercent: -100,
-          scale: 1.3,
-          delay: -1.5,
-          ease: Power2.out
-      });
-    });
+
 
 
 });
